@@ -1,5 +1,7 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from datetime import datetime
+from docx import Document
 import funciones as fc
 
 app = Flask(__name__)
@@ -62,6 +64,30 @@ def generar_demanda():
             df_cuotas = fc.crear_dataframe_cuotas_variables(fecha_inicio, cantidad_meses, cuota_inicial)
             hecho_4_texto, hecho_4_tabla = fc.escribir_hecho_4(nombre_padre, df_cuotas)
 
+            # Crear el documento Word
+            doc = Document()
+            doc.add_heading('Demanda Ejecutiva de Alimentos', 0)
+            doc.add_paragraph(introduccion)
+            doc.add_paragraph(hecho_1)
+            doc.add_paragraph(hecho_2)
+            doc.add_paragraph(hecho_3)
+            doc.add_paragraph(hecho_4_texto)
+            table = doc.add_table(rows=1, cols=len(df_cuotas.columns))
+            hdr_cells = table.rows[0].cells
+            
+            # Agregar encabezados a la tabla
+            for i, column in enumerate(df_cuotas.columns):
+                hdr_cells[i].text = column
+            
+            # Agregar filas a la tabla
+            for _, row in df_cuotas.iterrows():
+                row_cells = table.add_row().cells
+                for i, val in enumerate(row):
+                    row_cells[i].text = str(val)
+            
+            os.makedirs('static', exist_ok=True)
+            doc.save('static/Demanda_Ejecutiva.docx')
+
         
             # Pasar las partes por separado al template
             return render_template('resultado.html', 
@@ -71,6 +97,8 @@ def generar_demanda():
                                 hecho_3=hecho_3,
                                 hecho_4_texto=hecho_4_texto,
                                 hecho_4_tabla=hecho_4_tabla)
+                                #hecho_4_tabla=df_cuotas.to_html(index=False),
+                                #descargar=True)
         except Exception as e:
             return render_template('index.html', error=f"Error al procesar los datos: {str(e)}")
         
