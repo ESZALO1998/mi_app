@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Demanda Ejecutiva de Alimentos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Generador de Demanda Ejecutiva de Alimentos</h1>
+
+        {% if error %}
+        <div class="alert alert-danger mt-3" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <!-- Formulario -->
+        <form method="POST" action="{{ url_for('generar_demanda') }}" class="mt-4" target="_blank" id="formulario">
+            <!-- Datos de la madre -->
+            <h4>Datos de la Madre</h4>
+            <div class="form-group">
+                <label for="nombre_madre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre_madre" name="nombre_madre" required>
+            </div>
+            <div class="form-group">
+                <label for="municipio_madre">Municipio:</label>
+                <input type="text" class="form-control" id="municipio_madre" name="municipio_madre" required>
+            </div>
+            <div class="form-group">
+                <label for="cedula_madre">Cédula:</label>
+                <input type="text" class="form-control" id="cedula_madre" name="cedula_madre" required>
+            </div>
+
+            <!-- Datos del padre -->
+            <h4>Datos del Padre</h4>
+            <div class="form-group">
+                <label for="nombre_padre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre_padre" name="nombre_padre" required>
+            </div>
+            <div class="form-group">
+                <label for="municipio_padre">Municipio:</label>
+                <input type="text" class="form-control" id="municipio_padre" name="municipio_padre" required>
+            </div>
+            <div class="form-group">
+                <label for="cedula_padre">Cédula:</label>
+                <input type="text" class="form-control" id="cedula_padre" name="cedula_padre" required>
+            </div>
+
+            <!-- Datos de los menores -->
+            <h4>Datos de los Menores</h4>
+            <div id="menores">
+                <div class="menor mb-3">
+                    <div class="form-group">
+                        <label>Nombre del menor:</label>
+                        <input type="text" class="form-control" name="nombre_nino_1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Identificación (NUIP):</label>
+                        <input type="text" class="form-control" name="identificacion_nino_1" required>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-secondary" id ="btn-agragar-menor">Agregar otro menor</button>
+
+            <!-- Otros datos -->
+            <h4>Otros Datos</h4>
+            <div class="form-group">
+                <label for="ciudad_menor">Ciudad del menor:</label>
+                <input type="text" class="form-control" id="ciudad_menor" name="ciudad_menor" required>
+            </div>
+            <div class="form-group">
+                <label for="dia_audiencia">Fecha de la audiencia:</label>
+                <input type="date" class="form-control" id="dia_audiencia" name="dia_audiencia" required>
+            </div>
+            <div class="form-group">
+                <label for="acuerdo">Acuerdo de conciliación:</label>
+                <textarea class="form-control" id="acuerdo" name="acuerdo" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="fecha_inicio">Fecha de inicio de la deuda:</label>
+                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha_fin">Fecha de fin de la deuda:</label>
+                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" required>
+            </div>
+            <div class="form-group">
+                <label for="cuota_inicial">Cuota al inicio de la obligación ($):</label>
+                <input type="number" class="form-control" id="cuota_inicial" name="cuota_inicial" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Generar Demanda</button>
+        </form>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+</body>
+</html>

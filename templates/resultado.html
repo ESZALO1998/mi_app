@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% if introduccion %}
+        <div class="container mt-5">
+            <h3>Resultado</h3>
+            <div class="resultado">
+                <p>{{ introduccion }}</p>
+                <p>{{ hecho_1 }}</p>
+                <p>{{ hecho_2 | safe}}</p>
+                <p>{{ hecho_3 }}</p>
+                <p>{{ hecho_4_texto | safe }}</p>
+                {{ hecho_4_tabla | safe }}
+            </div>
+         
+            <div class="mt-5">
+                <button id= "btn-cerrar-ventana" class="btn btn-outline-danger">Volver al formulario</button>
+            </div>   
+            
+        </div>
+        {% endif %}
+
+        <script src="{{ url_for('static', filename='js/cerrar.js') }}"></script>
+</body>
+</html>
